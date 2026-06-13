@@ -2,8 +2,6 @@
 
 Continuous Clinical Automation Testing System — built for UiPath AgentHack, Track 3 (UiPath Test Cloud).
 
-See [MIKATA_BLUEPRINT.md](./MIKATA_BLUEPRINT.md) for the full feature set, architecture, and build plan.
-
 ## Structure
 
 - `frontend/` — Next.js 15 app
