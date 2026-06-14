@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     neo4j_user: str = ""
     neo4j_password: str = ""
 
-    anthropic_api_key: str = ""
+    gemini_api_key: str = ""
 
     uipath_org_name: str = ""
     uipath_tenant_name: str = ""
