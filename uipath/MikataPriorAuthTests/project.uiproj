@@ -1,0 +1,6 @@
+{
+  "Name": "MikataPriorAuthTests",
+  "ProjectType": "Tests",
+  "Description": "Mikata Day 3 Test Cloud smoke + prior-auth diagnosis check",
+  "MainFile": ""
+}
