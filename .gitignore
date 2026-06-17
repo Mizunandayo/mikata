@@ -1,0 +1,36 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+frontend/.next/
+frontend/node_modules/
+
+# Python / FastAPI
+__pycache__/
+*.pyc
+.venv/
+venv/
+backend/__pycache__/
+backend/.venv/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Synthea output
+backend/synthea/output/
+
+
+
+MIKATA_BLUEPRINT.md
