@@ -26,6 +26,17 @@ class Settings(BaseSettings):
     uipath_tenant_name: str = ""
     uipath_client_id: str = ""
     uipath_client_secret: str = ""
+    uipath_base_url: str = "https://cloud.uipath.com"
+    uipath_token_scope: str = "OR.Default"
+    uipath_folder_id: str = ""
+    uipath_queue_name: str = "SyntheticPatients"
+    uipath_demo_test_set_id: str = ""
+    uipath_poll_timeout_s: int = 180
+    uipath_poll_interval_s: float = 5.0
+
+    ws_ticket_secret: str = ""
+    ws_ticket_ttl_s: int = 60
+
 
     # Comma-separated allowlist for CORS. Locked down in prod.
     cors_allow_origins: str = "http://localhost:3000"
