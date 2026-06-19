@@ -33,8 +33,6 @@ class BotOut(BaseModel):
 
 
 
-
-
 class FleetOut(BaseModel):
     hospital: str
     bot_count: int
@@ -42,4 +40,17 @@ class FleetOut(BaseModel):
 
 
 
-    
+
+class TestRunOut(BaseModel):
+    id: UUID
+    bot_id: UUID
+    status: str
+    uipath_execution_id: str | None
+    detail: str | None
+    started_at: datetime
+    finished_at: datetime | None
+
+
+class WsTicketOut(BaseModel):
+    ticket: str
+    expires_in: int
