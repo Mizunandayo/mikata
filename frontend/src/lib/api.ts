@@ -30,3 +30,12 @@ export const registerBot = (name: string, description: string) =>
     method: "POST",
     body: JSON.stringify({ name, description }),
   });
+
+
+export const runTest = (botId: string) =>
+  backend(`/api/v1/tests/run?bot_id=${encodeURIComponent(botId)}`, { method: "POST" });
+
+
+
+export const getWsTicket = () =>
+  backend<{ ticket: string; expires_in: number }>("/api/v1/ws-ticket", { method: "POST" });

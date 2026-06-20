@@ -6,7 +6,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.config import settings
 
-EXEMPT_PATHS = {"/api/v1/healthz", "/docs", "/openapi.json", "/redoc"}
+EXEMPT_PATHS = {"/api/v1/healthz", "/docs", "/openapi.json", "/redoc", "/ws/events"}
 
 
 class DemoApiKeyMiddleware(BaseHTTPMiddleware):

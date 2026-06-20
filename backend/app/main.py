@@ -11,6 +11,7 @@ from app.health import run_all_checks
 from app.middleware import DemoApiKeyMiddleware
 from app.rate_limit import limiter
 from app.routers import fleet
+from app.routers import fleet, tests, ws
 
 
 
@@ -51,6 +52,9 @@ app.add_middleware(
 
 
 app.include_router(fleet.router)
+app.include_router(tests.router)
+app.include_router(ws.router)
+
 
 
 
