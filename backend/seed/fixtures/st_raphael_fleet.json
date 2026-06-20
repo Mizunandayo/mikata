@@ -1,0 +1,25 @@
+{
+  "hospital": "St. Raphael Medical Center",
+  "bots": [
+    { "name": "Billing Reconciliation Bot", "description": "Reconciles posted payments against outstanding invoices and flags discrepancies for the revenue cycle team. Reads remittance files and ledger entries; writes reconciliation reports. No clinical data." },
+    { "name": "Scheduling Reminder Bot", "description": "Sends courtesy appointment reminder messages to patients by SMS and email and records which reminders were delivered. It is a one-way notification utility with no clinical content and no effect on care delivery, billing, eligibility, or any downstream automation. A failure simply means some patients are not reminded of an upcoming appointment." },
+    { "name": "Monthly Report Generation Bot", "description": "Generates monthly operational and financial reports for department heads from aggregated metrics. Read-only on warehouse tables; writes PDF reports. Administrative only." },
+    { "name": "Eligibility Verification Bot", "description": "Verifies patient insurance eligibility against payer portals at check-in. Reads patient demographics and insurance IDs; writes eligibility status consumed by registration and prior authorization." },
+    { "name": "Patient Registration Bot", "description": "Creates and updates patient registration records from intake forms and eligibility results. Reads eligibility status; writes the patient record used downstream by prior authorization." },
+    { "name": "Prior Authorization Bot", "description": "Submits prior authorization request forms to insurance payer portals using codes already entered by staff, and records the authorization numbers the payers return. It makes no clinical decisions and does not alter any patient's care; it only transmits paperwork to insurers and files their responses. A failure delays insurance approval and downstream billing, not care delivery itself." },
+    { "name": "Claims Submission Bot", "description": "Assembles and submits insurance claims using authorization numbers and encounter data. Reads authorization results; writes claim identifiers consumed by remittance processing." },
+    { "name": "Remittance Processing Bot", "description": "Processes incoming payer remittance advice and posts payments against open insurance claims in the hospital's active revenue-cycle pipeline. It reads claim identifiers from the claims submission step and writes posted-payment records that operations depends on to track unpaid and denied claims. A failure stalls payment posting across the entire claims pipeline and creates operational revenue-cycle backlog that delays resolution of patient accounts, though it touches no clinical data." },
+    { "name": "Medication Order Processing Bot", "description": "Processes medication orders, validates against formulary and authorization, and routes to pharmacy. Reads authorization approval and medication orders; writes verified orders to the pharmacy queue. Directly affects patient medication delivery." },
+    { "name": "Lab Result Routing Bot", "description": "Routes incoming lab results to the ordering clinician and flags critical values. Reads lab result messages; writes routed notifications to clinician inboxes. Directly affects clinical follow-up." },
+    { "name": "Discharge Summary Bot", "description": "Generates discharge summaries and verifies required fields including medication reconciliation and follow-up instructions, escalating high-risk patients to a human reviewer. Reads authorization status and encounter data; writes discharge documents." },
+    { "name": "Critical Value Notification Bot", "description": "Detects critical lab values and notifies the responsible clinician within mandated timeframes. Reads lab result streams; writes acknowledged critical-value alerts. Directly affects patient safety." }
+  ],
+  "dependencies": [
+    { "upstream": "Eligibility Verification Bot", "downstream": "Patient Registration Bot", "data_field": "eligibility_status", "criticality": "hard" },
+    { "upstream": "Patient Registration Bot", "downstream": "Prior Authorization Bot", "data_field": "patient_record", "criticality": "hard" },
+    { "upstream": "Prior Authorization Bot", "downstream": "Claims Submission Bot", "data_field": "authorization_number", "criticality": "hard" },
+    { "upstream": "Claims Submission Bot", "downstream": "Remittance Processing Bot", "data_field": "claim_id", "criticality": "hard" },
+    { "upstream": "Prior Authorization Bot", "downstream": "Discharge Summary Bot", "data_field": "authorization_status", "criticality": "soft" },
+    { "upstream": "Prior Authorization Bot", "downstream": "Medication Order Processing Bot", "data_field": "authorization_approval", "criticality": "hard" }
+  ]
+}

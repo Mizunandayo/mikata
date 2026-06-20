@@ -7,3 +7,5 @@ redis>=5.2
 asyncpg>=0.30
 neo4j>=5.27
 google-genai>=1.0
+slowapi>=0.1.9
+orjson>=3.10
