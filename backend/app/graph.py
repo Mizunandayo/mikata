@@ -63,3 +63,37 @@ async def downstream_bot_ids(bot_id: str) -> list[str]:
         id=bot_id,
     )
     return [r["id"] for r in records]
+
+
+
+
+
+async def blast_radius_subgraph(bot_id: str) -> tuple[list[dict], list[dict]]:
+    """Downstream cascade topology from Neo4j.
+    Returns (nodes, edges):
+      nodes: [{id, depth}]  — depth = shortest hop count from the origin (>=1)
+      edges: [{src, dst, field, criticality}] — every FEEDS edge inside the blast
+    """
+
+
+    driver = _get()
+
+    node_recs, _, _ = await driver.execute_query(
+        "MATCH p = (s:Bot {id: $id})-[:FEEDS*1..]->(d:Bot) "
+        "RETURN d.id AS id, min(length(p)) AS depth",
+        id=bot_id,
+    )
+    nodes = [{"id": r["id"], "depth": r["depth"]} for r in node_recs]
+
+    # Edges where the destination is reachable from the origin, and the source
+    edge_recs, _, _ = await driver.execute_query(
+        "MATCH (s:Bot {id: $id})-[:FEEDS*0..]->(a:Bot)-[r:FEEDS]->(b:Bot) "
+        "WHERE EXISTS { MATCH (s)-[:FEEDS*1..]->(b) } "
+        "RETURN DISTINCT a.id AS src, b.id AS dst, "
+        "r.field AS field, r.criticality AS criticality",
+        id=bot_id,
+    )
+    edges = [{"src": r["src"], "dst": r["dst"],
+              "field": r["field"], "criticality": r["criticality"]}
+             for r in edge_recs]
+    return nodes, edges

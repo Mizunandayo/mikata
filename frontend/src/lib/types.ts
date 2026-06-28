@@ -19,3 +19,38 @@ export type Fleet = {
   bot_count: number;
   bots: Bot[];
 };
+
+
+
+export type BlastNode = {
+  id: string;
+  name: string;
+  level: 1 | 2 | 3;
+  pis: number;
+  depth: number;
+  volume: number;
+};
+
+
+
+export type BlastEdge = {
+  src: string;
+  dst: string;
+  field: string;
+  criticality: "hard" | "soft";
+};
+
+
+
+export type BlastRadius = {
+  origin: BlastNode;
+  nodes: BlastNode[];
+  edges: BlastEdge[];
+  summary: {
+    affected_bots: number;
+    aggregate_pis: number;
+    patient_volume_24h: number;
+    max_depth: number;
+  };
+  generated_at: string;
+};

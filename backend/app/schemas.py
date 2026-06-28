@@ -54,3 +54,37 @@ class TestRunOut(BaseModel):
 class WsTicketOut(BaseModel):
     ticket: str
     expires_in: int
+
+
+
+
+class BlastNode(BaseModel):
+    id: UUID
+    name: str
+    level: int
+    pis: float
+    depth: int
+    volume: int
+
+
+
+class BlastEdge(BaseModel):
+    src: UUID
+    dst: UUID
+    field: str
+    criticality: str
+
+
+class BlastSummary(BaseModel):
+    affected_bots: int
+    aggregate_pis: float
+    patient_volume_24h: int
+    max_depth: int
+
+
+class BlastRadiusOut(BaseModel):
+    origin: BlastNode
+    nodes: list[BlastNode]
+    edges: list[BlastEdge]
+    summary: BlastSummary
+    generated_at: str

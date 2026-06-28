@@ -1,5 +1,5 @@
 import "server-only";
-import type { Fleet } from "./types";
+import type { Fleet, BlastRadius } from "./types";
 
 
 
@@ -31,6 +31,7 @@ export const registerBot = (name: string, description: string) =>
     body: JSON.stringify({ name, description }),
   });
 
+  
 
 export const runTest = (botId: string) =>
   backend(`/api/v1/tests/run?bot_id=${encodeURIComponent(botId)}`, { method: "POST" });
@@ -39,3 +40,16 @@ export const runTest = (botId: string) =>
 
 export const getWsTicket = () =>
   backend<{ ticket: string; expires_in: number }>("/api/v1/ws-ticket", { method: "POST" });
+
+
+
+export const getBlastRadius = (botId: string) =>
+  backend<BlastRadius>(`/api/v1/blast-radius/${encodeURIComponent(botId)}`);
+
+
+
+export const simulateBlast = (botId: string) =>
+  backend<BlastRadius>(
+    `/api/v1/blast-radius/${encodeURIComponent(botId)}/simulate`,
+    { method: "POST" },
+  );

@@ -1,7 +1,17 @@
+import type { BlastRadius } from "@/lib/types";
+
+
 export type MikataEvent = {
-  type: string; run_id?: string; bot_id?: string; bot_name?: string;
-  status?: string; detail?: string; last_test_result?: string;
+  type: string;
+  run_id?: string;
+  bot_id?: string;
+  bot_name?: string;
+  status?: string;
+  detail?: string;
+  last_test_result?: string;
+  blast?: BlastRadius;
 };
+
 
 
 

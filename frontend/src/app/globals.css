@@ -46,6 +46,22 @@ a, button, [role="button"], .interactive { cursor: pointer; }
 .lift { transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease; }
 .lift:hover { transform: translateY(-3px); border-color: var(--surface-border); background: rgba(255,255,255,0.06); }
 
+/* Day 4 — Cascade Blast Radius */
+@keyframes amberglow {
+  0%, 100% { box-shadow: 0 0 0 1px var(--level-2), 0 0 0 0 rgba(245,158,11,0); }
+  50%      { box-shadow: 0 0 0 1px var(--level-2), 0 0 22px 2px rgba(245,158,11,0.5); }
+}
+.animate-amberglow { animation: amberglow 1.8s ease-in-out infinite; }
+
+.blast-edge {
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              stroke 0.3s ease, opacity 0.3s ease;
+}
+.blast-node {
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-rise, .animate-failpulse, .ads-fill, .lift { animation: none; transition: none; }
+  .animate-rise, .animate-failpulse, .ads-fill, .lift,
+  .animate-amberglow, .blast-edge, .blast-node { animation: none; transition: none; }
 }

@@ -4,6 +4,7 @@ from app.config import settings
 from app.events import bus
 from app.services import injection
 from app.uipath import testcloud
+from app.services import blast
 
 
 
@@ -76,6 +77,11 @@ async def run_test(bot_id: str) -> str:
         await _set_status(run_id, final, f"Test Cloud returned {uip_status}")
         if final in ("pass", "fail"):
             await _record_result(bot_id, run_id, final, result)
+        if final == "fail":
+            try:
+                await blast.compute_and_broadcast(bot_id)
+            except Exception:
+                pass  
         return run_id
     except Exception:
         await _set_status(run_id, "error", "Run failed — see server logs")
@@ -101,9 +107,3 @@ async def _record_result(bot_id: str, run_id: str, result: str, raw: dict) -> No
                 json.dumps({"run_id": run_id, "uipath_status": raw["status"]}))
     await bus.publish({"type": "fleet_update", "bot_id": bot_id,
                        "last_test_result": result})
-    
-
-
-
-
-    

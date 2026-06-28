@@ -2,14 +2,20 @@ import TopBar from "@/components/TopBar";
 import FleetGrid from "@/components/FleetGrid";
 import LiveTestRail from "@/components/LiveTestRail";
 import RunTestButton from "@/components/RunTestButton";
-import { getFleet } from "@/lib/api";
-import { runTestAction } from "./actions";
+import BlastRadiusPanel from "@/components/BlastRadiusPanel";
+import { getFleet, getBlastRadius } from "@/lib/api";
+import { runTestAction, simulateBlastAction } from "./actions";
+
+
 
 export default async function Home() {
   const fleet = await getFleet();
-  // Prior Authorization Bot is the demo target; fall back to first bot.
   const demoBot =
     fleet.bots.find((b) => b.name.toLowerCase().includes("prior auth")) ?? fleet.bots[0];
+
+
+  // Initial cascade map, fetched server-side (key never reaches the browser).
+  const blast = demoBot ? await getBlastRadius(demoBot.id).catch(() => null) : null;
 
   return (
     <main>
@@ -23,6 +29,14 @@ export default async function Home() {
           </div>
         )}
       </div>
+
+      {demoBot && (
+        <BlastRadiusPanel
+          initial={blast}
+          demoBotId={demoBot.id}
+          onSimulate={simulateBlastAction}
+        />
+      )}
 
       <FleetGrid bots={fleet.bots} />
     </main>

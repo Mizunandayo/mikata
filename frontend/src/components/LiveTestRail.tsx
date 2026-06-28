@@ -23,6 +23,7 @@ export default function LiveTestRail() {
     let close = () => {};
     openEventStream((e) => {
       if (e.type === "connected") { setLive(true); return; }
+      if (e.type === "blast_radius") return;   // handled by BlastRadiusPanel, not the rail
       setEvents((prev) => [e, ...prev].slice(0, 8));
     }).then((c) => (close = c)).catch(() => setLive(false));
     return () => close();
